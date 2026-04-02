@@ -39,9 +39,12 @@ export default function FeaturedWork() {
     const gap = 32;
     const totalWidth = cards.length * (cardWidth + gap) - gap;
     const movement = -(totalWidth - window.innerWidth);
+    const centerOffset = (window.innerWidth - cardWidth) / 2;
+
+    gsap.set(trackRef.current, { x: centerOffset });
 
     gsap.to(trackRef.current, {
-      x: movement,
+      x: centerOffset + movement,
       ease: "none",
       scrollTrigger: {
         trigger: wrapperRef.current,
@@ -55,7 +58,7 @@ export default function FeaturedWork() {
 
   return (
     <section ref={sectionRef}>
-      <div className="py-28 px-6">
+      <div className="pt-28 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-16">
             <div>
@@ -84,7 +87,7 @@ export default function FeaturedWork() {
         </div>
       </div>
 
-      <div ref={wrapperRef} className="overflow-hidden">
+      <div ref={wrapperRef} className="overflow-hidden pt-18">
         <div
           ref={trackRef}
           className="flex gap-8 px-6"
