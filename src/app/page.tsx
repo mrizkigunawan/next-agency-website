@@ -1,13 +1,15 @@
 import Hero from "@/components/sections/Hero";
 import TrustedBy from "@/components/sections/TrustedBy";
 import WhyUs from "@/components/sections/WhyUs";
-import ImageBreak from "@/components/sections/ImageBreak";
+import PinnedImageBreak from "@/components/sections/PinnedImageBreak";
 import Services from "@/components/sections/Services";
 import FeaturedWork from "@/components/sections/FeaturedWork";
 import Process from "@/components/sections/Process";
+import ClipImageBreak from "@/components/sections/ClipImageBreak";
 import Testimonials from "@/components/sections/Testimonials";
 import TeamPreview from "@/components/sections/TeamPreview";
 import Pricing from "@/components/sections/Pricing";
+import ImageBreak from "@/components/sections/ImageBreak";
 import ContactCta from "@/components/sections/ContactCta";
 
 export default function HomePage() {
@@ -16,14 +18,14 @@ export default function HomePage() {
       <Hero />
       <TrustedBy />
       <WhyUs />
-      <ImageBreak
+      <PinnedImageBreak
         src="https://placehold.co/1920x1080/e2e8f0/1c1917"
         alt="Team working together"
       />
       <Services />
       <FeaturedWork />
       <Process />
-      <ImageBreak
+      <ClipImageBreak
         src="https://placehold.co/1920x1080/d6d3d1/1c1917"
         alt="Creative process in action"
       />
