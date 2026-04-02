@@ -73,7 +73,7 @@ export default function FeaturedWork() {
         </div>
       </div>
 
-      <div ref={wrapperRef} className="overflow-hidden pt-18 pb-28">
+      <div ref={wrapperRef} className="overflow-hidden py-18">
         <div
           ref={trackRef}
           className="flex gap-8 px-6"
@@ -107,7 +107,7 @@ export default function FeaturedWork() {
       </div>
 
       <div className="px-6 pb-28">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto flex justify-center">
           <Link
             href="/portfolio"
             className="inline-flex items-center gap-2 text-sm font-medium text-stone-500 hover:text-cyan-600 transition-colors group"

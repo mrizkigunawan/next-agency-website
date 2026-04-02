@@ -6,6 +6,7 @@ import Footer from "@/components/layout/Footer";
 import TransitionProvider from "@/components/transition/TransitionProvider";
 import SmoothScroll from "@/components/layout/SmoothScroll";
 import ScrollToTop from "@/components/layout/ScrollToTop";
+import Cursor from "@/components/layout/Cursor";
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
@@ -44,6 +45,7 @@ export default function RootLayout({
             <main className="flex-1 pt-20">{children}</main>
             <Footer />
             <ScrollToTop />
+            <Cursor />
           </SmoothScroll>
         </TransitionProvider>
       </body>

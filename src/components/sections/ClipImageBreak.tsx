@@ -40,7 +40,7 @@ export default function ClipImageBreak({
         src={src}
         alt={alt}
         className="w-full h-full object-cover"
-        style={{ clipPath: "circle(25% at 50% 50%)", scale: "1.2" }}
+        style={{ clipPath: "circle(20% at 50% 50%)", scale: "1.2" }}
       />
     </div>
   );
