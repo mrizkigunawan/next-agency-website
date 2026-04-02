@@ -37,8 +37,7 @@ export default function FeaturedWork() {
     const cards = gsap.utils.toArray<HTMLElement>(".project-card");
     const cardWidth = cards[0]?.offsetWidth || 0;
     const gap = 32;
-    const totalWidth = cards.length * (cardWidth + gap) - gap;
-    const movement = -(totalWidth - window.innerWidth);
+    const movement = -(cards.length - 1) * (cardWidth + gap);
     const centerOffset = (window.innerWidth - cardWidth) / 2;
 
     gsap.set(trackRef.current, { x: centerOffset });
@@ -87,7 +86,7 @@ export default function FeaturedWork() {
         </div>
       </div>
 
-      <div ref={wrapperRef} className="overflow-hidden pt-18">
+      <div ref={wrapperRef} className="overflow-hidden pt-18 pb-28">
         <div
           ref={trackRef}
           className="flex gap-8 px-6"
