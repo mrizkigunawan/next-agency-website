@@ -28,23 +28,26 @@ export default function Cursor() {
 
     window.addEventListener("mousemove", onMouseMove);
 
-    const hoverTargets =
+    const hoverSelector =
       "a, button, [role='button'], input, textarea, select, .cursor-pointer";
 
-    const onEnter = () => setIsHovering(true);
-    const onLeave = () => setIsHovering(false);
+    const onOver = (e: MouseEvent) => {
+      const target = (e.target as HTMLElement).closest(hoverSelector);
+      if (target) setIsHovering(true);
+    };
 
-    document.querySelectorAll(hoverTargets).forEach((el) => {
-      el.addEventListener("mouseenter", onEnter);
-      el.addEventListener("mouseleave", onLeave);
-    });
+    const onOut = (e: MouseEvent) => {
+      const target = (e.target as HTMLElement).closest(hoverSelector);
+      if (target) setIsHovering(false);
+    };
+
+    document.addEventListener("mouseover", onOver);
+    document.addEventListener("mouseout", onOut);
 
     return () => {
       window.removeEventListener("mousemove", onMouseMove);
-      document.querySelectorAll(hoverTargets).forEach((el) => {
-        el.removeEventListener("mouseenter", onEnter);
-        el.removeEventListener("mouseleave", onLeave);
-      });
+      document.removeEventListener("mouseover", onOver);
+      document.removeEventListener("mouseout", onOut);
     };
   }, []);
 
