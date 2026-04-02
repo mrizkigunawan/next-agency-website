@@ -138,7 +138,7 @@ export default function PortfolioPage() {
         </div>
       </section>
 
-      <section className="reveal-section py-12 px-6 pb-28 relative z-[2]">
+      <section className="reveal-section py-12 px-6 pb-28 relative z-2 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {projects.map((project, i) => (

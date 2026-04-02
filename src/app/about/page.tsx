@@ -224,7 +224,12 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="reveal-section py-28 px-6">
+      <PinnedImageBreak
+        src="https://placehold.co/1920x1080/e7e5e4/1c1917"
+        alt="Our story in action"
+      />
+
+      <section className="reveal-section py-28 px-6 relative bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
             <div className="reveal-left">
@@ -261,12 +266,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <PinnedImageBreak
-        src="https://placehold.co/1920x1080/e7e5e4/1c1917"
-        alt="Our story in action"
-      />
-
-      <section className="reveal-section py-28 px-6 bg-[#f5f5f4]">
+      <section className="reveal-section py-28 px-6 relative bg-[#f5f5f4]">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <p className="text-xs font-mono uppercase tracking-[0.2em] text-stone-400 mb-4 section-label">

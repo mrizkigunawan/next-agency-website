@@ -38,7 +38,7 @@ export default function PinnedImageBreak({
         ref={imgRef}
         src={src}
         alt={alt}
-        className="w-full h-[calc(100vh+40px)] object-center"
+        className="w-full h-[calc(100vh+40px)] object-cover"
       />
     </div>
   );

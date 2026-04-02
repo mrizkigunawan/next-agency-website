@@ -142,7 +142,7 @@ export default function ServicesPage() {
         alt="Our services in action"
       />
 
-      <section className="reveal-section py-12 px-6 pb-28">
+      <section className="reveal-section py-12 px-6 pb-28 bg-white relative">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-stone-200">
             {services.map((service, i) => (
