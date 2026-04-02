@@ -5,6 +5,7 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import RevealImageBreak from "@/components/sections/RevealImageBreak";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -137,7 +138,7 @@ export default function PortfolioPage() {
         </div>
       </section>
 
-      <section className="reveal-section py-12 px-6 pb-28">
+      <section className="reveal-section py-12 px-6 pb-28 relative z-[2]">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {projects.map((project, i) => (
@@ -164,6 +165,11 @@ export default function PortfolioPage() {
           </div>
         </div>
       </section>
+
+      <RevealImageBreak
+        src="https://placehold.co/1920x1080/e5e7eb/1c1917"
+        alt="Our portfolio showcase"
+      />
 
       <section className="reveal-section py-28 px-6 bg-cyan-600">
         <div className="max-w-7xl mx-auto text-center">

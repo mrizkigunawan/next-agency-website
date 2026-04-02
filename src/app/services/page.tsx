@@ -5,6 +5,7 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import PinnedImageBreak from "@/components/sections/PinnedImageBreak";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -135,6 +136,11 @@ export default function ServicesPage() {
           </p>
         </div>
       </section>
+
+      <PinnedImageBreak
+        src="https://placehold.co/1920x1080/d1d5db/1c1917"
+        alt="Our services in action"
+      />
 
       <section className="reveal-section py-12 px-6 pb-28">
         <div className="max-w-7xl mx-auto">
