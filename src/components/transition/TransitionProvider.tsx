@@ -7,11 +7,11 @@ import gsap from "gsap";
 const COLUMNS = 5;
 
 const COLORS = [
-  "#0e7490",
-  "#0891b2",
-  "#06b6d4",
-  "#22d3ee",
-  "#67e8f9",
+  "#a8a29e",
+  "#d6d3d1",
+  "#e7e5e4",
+  "#f5f5f4",
+  "#fafaf9",
 ];
 
 export default function TransitionProvider({
