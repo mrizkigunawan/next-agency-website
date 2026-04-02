@@ -65,7 +65,7 @@ export default function Pricing() {
   }, { scope: containerRef });
 
   return (
-    <section ref={containerRef} className="py-28 px-6">
+    <section ref={containerRef} className="py-28 px-6 relative z-2 bg-white">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <p className="text-xs font-mono uppercase tracking-[0.2em] text-stone-400 mb-4 section-label">

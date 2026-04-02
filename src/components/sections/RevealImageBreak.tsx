@@ -15,25 +15,31 @@ export default function RevealImageBreak({
   alt: string;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const imgRef = useRef<HTMLImageElement>(null);
 
   useGSAP(() => {
-    gsap.to(containerRef.current, {
+    gsap.to(imgRef.current, {
+      scale: 1,
+      ease: 'none',
       scrollTrigger: {
         trigger: containerRef.current,
-        start: "top bottom",
-        end: "top top",
+        start: "top top",
+        end: "+=100%",
         pin: true,
-        pinSpacing: false,
+        pinSpacing: true,
+        scrub: true,
       },
     });
   }, { scope: containerRef });
 
   return (
-    <div ref={containerRef} className="relative h-screen">
+    <div ref={containerRef} className="relative h-screen -mt-[100vh] z-0">
       <img
+        ref={imgRef}
         src={src}
         alt={alt}
         className="w-full h-full object-cover"
+        style={{ scale: '1.2' }}
       />
     </div>
   );
