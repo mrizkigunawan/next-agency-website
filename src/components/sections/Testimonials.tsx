@@ -101,7 +101,7 @@ export default function Testimonials() {
   }, []);
 
   return (
-    <section ref={containerRef} className="py-28 px-6 overflow-hidden">
+    <section ref={containerRef} className="py-28 px-6 overflow-hidden relative">
       <div className="max-w-7xl mx-auto mb-16">
         <div className="text-center">
           <p className="text-xs font-mono uppercase tracking-[0.2em] text-stone-400 mb-4 section-label">

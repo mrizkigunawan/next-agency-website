@@ -7,7 +7,7 @@ import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
-export default function ClipImageBreak({
+export default function PinnedImageBreak({
   src,
   alt,
 }: {
@@ -19,15 +19,14 @@ export default function ClipImageBreak({
 
   useGSAP(() => {
     gsap.to(imgRef.current, {
-      clipPath: "circle(75% at 50% 50%)",
-      scale: 1,
+      y: -100,
       ease: "none",
       scrollTrigger: {
         trigger: containerRef.current,
         start: "top top",
         end: "+=100%",
         pin: true,
-        pinSpacing: true,
+        pinSpacing: false,
         scrub: true,
       },
     });
@@ -39,8 +38,7 @@ export default function ClipImageBreak({
         ref={imgRef}
         src={src}
         alt={alt}
-        className="w-full h-full object-cover"
-        style={{ clipPath: "circle(25% at 50% 50%)", scale: "1.2" }}
+        className="w-full h-[calc(100vh+40px)] object-center"
       />
     </div>
   );
