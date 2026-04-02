@@ -29,51 +29,32 @@ const featuredWork = [
 export default function FeaturedWork() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    const cards = gsap.utils.toArray<HTMLElement>(".project-card");
-    const totalMovement = cards.length * 100;
+    if (!trackRef.current || !wrapperRef.current) return;
 
-    const tl = gsap.timeline({
+    const cards = gsap.utils.toArray<HTMLElement>(".project-card");
+    const cardWidth = cards[0]?.offsetWidth || 0;
+    const gap = 32;
+    const totalWidth = cards.length * (cardWidth + gap) - gap;
+    const movement = -(totalWidth - window.innerWidth);
+
+    gsap.to(trackRef.current, {
+      x: movement,
+      ease: "none",
       scrollTrigger: {
-        trigger: sectionRef.current,
+        trigger: wrapperRef.current,
         start: "top top",
-        end: `+=${totalMovement}%`,
+        end: `+=${Math.abs(movement)}`,
         pin: true,
         scrub: 1,
       },
     });
-
-    tl.to(trackRef.current, {
-      x: () => `-${totalMovement}vw`,
-      ease: "none",
-    });
-
-    cards.forEach((card) => {
-      const image = card.querySelector(".card-image") as HTMLElement;
-      if (image) {
-        gsap.fromTo(
-          image,
-          { scale: 0.92, opacity: 0.6 },
-          {
-            scale: 1,
-            opacity: 1,
-            ease: "none",
-            scrollTrigger: {
-              trigger: card,
-              containerAnimation: tl,
-              start: "left 80%",
-              end: "left 30%",
-              scrub: true,
-            },
-          }
-        );
-      }
-    });
   }, { scope: sectionRef });
 
   return (
-    <section ref={sectionRef} className="relative">
+    <section ref={sectionRef}>
       <div className="py-28 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-16">
@@ -103,7 +84,7 @@ export default function FeaturedWork() {
         </div>
       </div>
 
-      <div className="overflow-hidden">
+      <div ref={wrapperRef} className="overflow-hidden">
         <div
           ref={trackRef}
           className="flex gap-8 px-6"
