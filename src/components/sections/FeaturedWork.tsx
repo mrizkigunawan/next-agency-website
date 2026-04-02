@@ -59,30 +59,17 @@ export default function FeaturedWork() {
     <section ref={sectionRef}>
       <div className="pt-28 px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-16">
-            <div>
-              <p className="text-xs font-mono uppercase tracking-[0.2em] text-stone-400 mb-4">
-                Selected work
-              </p>
-              <h2 className="font-serif text-4xl md:text-5xl text-[#1c1917]">
-                Featured Work
-              </h2>
-              <p className="text-stone-500 mt-4 max-w-md leading-relaxed">
-                Every project is a story of collaboration, creativity, and
-                relentless attention to detail. Here are a few we&apos;re proud
-                of.
-              </p>
-            </div>
-            <Link
-              href="/portfolio"
-              className="mt-6 md:mt-0 inline-flex items-center gap-2 text-sm font-medium text-stone-500 hover:text-cyan-600 transition-colors group"
-            >
-              View All Projects
-              <span className="inline-block transition-transform group-hover:translate-x-1">
-                →
-              </span>
-            </Link>
-          </div>
+          <p className="text-xs font-mono uppercase tracking-[0.2em] text-stone-400 mb-4">
+            Selected work
+          </p>
+          <h2 className="font-serif text-4xl md:text-5xl text-[#1c1917]">
+            Featured Work
+          </h2>
+          <p className="text-stone-500 mt-4 max-w-md leading-relaxed">
+            Every project is a story of collaboration, creativity, and
+            relentless attention to detail. Here are a few we&apos;re proud
+            of.
+          </p>
         </div>
       </div>
 
@@ -116,6 +103,20 @@ export default function FeaturedWork() {
               </p>
             </div>
           ))}
+        </div>
+      </div>
+
+      <div className="px-6 pb-28">
+        <div className="max-w-7xl mx-auto">
+          <Link
+            href="/portfolio"
+            className="inline-flex items-center gap-2 text-sm font-medium text-stone-500 hover:text-cyan-600 transition-colors group"
+          >
+            View All Projects
+            <span className="inline-block transition-transform group-hover:translate-x-1">
+              →
+            </span>
+          </Link>
         </div>
       </div>
     </section>
