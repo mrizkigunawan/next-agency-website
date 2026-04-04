@@ -287,7 +287,11 @@ export default function AboutPage() {
                 key={i}
                 className="reveal-item bg-white p-8 rounded-2xl text-center group hover:bg-stone-50 transition-colors duration-300"
               >
-                <div className="reveal-scale w-32 h-32 bg-stone-200 rounded-full mx-auto mb-5 group-hover:bg-cyan-100 transition-colors duration-300" />
+                <img
+                  src={`https://placehold.co/128x128/e7e5e4/1c1917?text=${member.name.split(" ").map((n) => n[0]).join("")}`}
+                  alt={member.name}
+                  className="reveal-scale w-32 h-32 rounded-full mx-auto mb-5 object-cover"
+                />
                 <h3 className="font-serif text-lg text-[#1c1917]">
                   {member.name}
                 </h3>

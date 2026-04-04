@@ -84,13 +84,12 @@ export default function FeaturedWork() {
               key={i}
               className="project-card flex-shrink-0 w-[80vw] md:w-[60vw] lg:w-[50vw]"
             >
-              <div className="card-image bg-stone-200 rounded-2xl aspect-[16/10] overflow-hidden relative mb-6">
-                <div className="absolute inset-0 bg-gradient-to-br from-stone-300 to-stone-400" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-stone-500 text-6xl font-serif opacity-30">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                </div>
+              <div className="card-image rounded-2xl aspect-[16/10] overflow-hidden relative mb-6">
+                <img
+                  src={`https://placehold.co/800x500/e7e5e4/1c1917?text=${String(i + 1).padStart(2, "0")}`}
+                  alt={project.title}
+                  className="w-full h-full object-cover"
+                />
               </div>
               <span className="text-xs font-mono text-cyan-600 uppercase tracking-wider">
                 {project.category}
