@@ -50,28 +50,28 @@ export default function AboutPage() {
     if (heroLabel) {
       const split = SplitText.create(heroLabel, {
         type: "words",
-        mask: "words",
+        
       });
       splitsRef.current.push(split);
 
       heroTl.fromTo(
         split.words,
-        { yPercent: 100 },
-        { yPercent: 0, stagger: 0.05, ease: "power3.out" }
+        { yPercent: 100, autoAlpha: 0 },
+        { yPercent: 0, autoAlpha: 1, stagger: 0.05, ease: "power3.out" }
       );
     }
 
     if (heroTitle) {
       const split = SplitText.create(heroTitle, {
         type: "chars",
-        mask: "chars",
+        
       });
       splitsRef.current.push(split);
 
       heroTl.fromTo(
         split.chars,
-        { yPercent: 100 },
-        { yPercent: 0, stagger: 0.05, ease: "power3.out" },
+        { yPercent: 100, autoAlpha: 0 },
+        { yPercent: 0, autoAlpha: 1, stagger: 0.05, ease: "power3.out" },
         "-=0.3"
       );
     }
@@ -79,14 +79,14 @@ export default function AboutPage() {
     if (heroDesc) {
       const split = SplitText.create(heroDesc, {
         type: "words",
-        mask: "words",
+        
       });
       splitsRef.current.push(split);
 
       heroTl.fromTo(
         split.words,
-        { yPercent: 100 },
-        { yPercent: 0, stagger: 0.03, ease: "power3.out" },
+        { yPercent: 100, autoAlpha: 0 },
+        { yPercent: 0, autoAlpha: 1, stagger: 0.03, ease: "power3.out" },
         "<"
       );
     }

@@ -23,28 +23,26 @@ export default function Hero() {
     if (heroTitle) {
       const split = SplitText.create(heroTitle, {
         type: "words",
-        mask: "words",
       });
       splitsRef.current.push(split);
 
       tl.fromTo(
         split.words,
-        { yPercent: 100 },
-        { yPercent: 0, duration: 0.5, delay: 0.5, stagger: 0.05, ease: "power3.out" }
+        { yPercent: 100, autoAlpha: 0 },
+        { yPercent: 0, autoAlpha: 1, duration: 0.5, delay: 0.5, stagger: 0.05, ease: "power3.out" }
       );
     }
 
     if (heroSub) {
       const split = SplitText.create(heroSub, {
         type: "words",
-        mask: "words",
       });
       splitsRef.current.push(split);
 
       tl.fromTo(
         split.words,
-        { yPercent: 100 },
-        { yPercent: 0, stagger: 0.03, ease: "power3.out" },
+        { yPercent: 100, autoAlpha: 0 },
+        { yPercent: 0, autoAlpha: 1, stagger: 0.03, ease: "power3.out" },
         "<"
       );
     }
@@ -73,12 +71,12 @@ export default function Hero() {
 
       <div className="max-w-7xl mx-auto relative flex items-center justify-center min-h-[60vh]">
         <div className="max-w-4xl text-center">
-          <h1 className="hero-title font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-[#1c1917] leading-[0.95] tracking-tight">
+          <h1 className="hero-title font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-[#1c1917] leading-[0.95] tracking-tight overflow-hidden">
             We craft digital experiences that{" "}
             <span className="text-cyan-600">inspire</span> &amp;{" "}
             <span className="text-cyan-600">engage</span>
           </h1>
-          <p className="hero-sub text-lg md:text-xl text-stone-500 mt-8 max-w-xl mx-auto leading-relaxed">
+          <p className="hero-sub text-lg md:text-xl text-stone-500 mt-8 max-w-xl mx-auto leading-relaxed overflow-hidden">
             A full-service digital studio helping brands connect with their
             audience through innovative design and strategic thinking.
           </p>
