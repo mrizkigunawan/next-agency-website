@@ -30,7 +30,7 @@ export default function Hero() {
       tl.fromTo(
         split.words,
         { yPercent: 100 },
-        { yPercent: 0, stagger: 0.05, ease: "power3.out" }
+        { yPercent: 0, duration: 0.5, delay: 0.5, stagger: 0.05, ease: "power3.out" }
       );
     }
 
