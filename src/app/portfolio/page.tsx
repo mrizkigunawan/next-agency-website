@@ -4,10 +4,11 @@ import Link from "next/link";
 import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { SplitText } from "gsap/SplitText";
 import { useGSAP } from "@gsap/react";
 import RevealImageBreak from "@/components/sections/RevealImageBreak";
 
-gsap.registerPlugin(ScrollTrigger, useGSAP);
+gsap.registerPlugin(ScrollTrigger, SplitText, useGSAP);
 
 const projects = [
   {
@@ -50,30 +51,68 @@ const projects = [
 
 export default function PortfolioPage() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const splitsRef = useRef<ReturnType<typeof SplitText.create>[]>([]);
 
   useGSAP(() => {
-    gsap.fromTo(
-      ".hero-label",
-      { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.6, ease: "power3.out" }
-    );
+    // Hero animations
+    const heroLabel = document.querySelector(".hero-label");
+    const heroTitle = document.querySelector(".hero-title");
+    const heroDesc = document.querySelector(".hero-desc");
 
-    gsap.fromTo(
-      ".hero-title",
-      { y: 80, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8, delay: 0.15, ease: "power3.out" }
-    );
+    const heroTl = gsap.timeline();
 
-    gsap.fromTo(
-      ".hero-desc",
-      { y: 40, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.7, delay: 0.35, ease: "power3.out" }
-    );
+    if (heroLabel) {
+      const split = SplitText.create(heroLabel, {
+        type: "words",
+        mask: "words",
+      });
+      splitsRef.current.push(split);
 
+      heroTl.fromTo(
+        split.words,
+        { yPercent: 100 },
+        { yPercent: 0, duration: 0.6, stagger: 0.05, ease: "power3.out" }
+      );
+    }
+
+    if (heroTitle) {
+      const split = SplitText.create(heroTitle, {
+        type: "chars",
+        mask: "chars",
+      });
+      splitsRef.current.push(split);
+
+      heroTl.fromTo(
+        split.chars,
+        { yPercent: 100 },
+        { yPercent: 0, duration: 0.5, stagger: 0.02, ease: "power3.out" },
+        "-=0.3"
+      );
+    }
+
+    if (heroDesc) {
+      const split = SplitText.create(heroDesc, {
+        type: "words",
+        mask: "words",
+      });
+      splitsRef.current.push(split);
+
+      heroTl.fromTo(
+        split.words,
+        { yPercent: 100 },
+        { yPercent: 0, duration: 0.6, stagger: 0.05, ease: "power3.out" },
+        "-=0.2"
+      );
+    }
+
+    // Project sections
     gsap.utils.toArray<HTMLElement>(".project-section").forEach((section, i) => {
-      const isEven = i % 2 === 0;
       const image = section.querySelector(".project-image");
-      const text = section.querySelector(".project-text");
+      const yearEl = section.querySelector(".project-year");
+      const categoryEl = section.querySelector(".project-category");
+      const titleEl = section.querySelector(".project-title");
+      const descEl = section.querySelector(".project-desc");
+      const linkEl = section.querySelector(".project-link");
 
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -90,15 +129,51 @@ export default function PortfolioPage() {
         );
       }
 
-      if (text) {
+      const textElements = [yearEl, categoryEl, titleEl, descEl];
+      const textAnimations: ReturnType<typeof gsap.fromTo>[] = [];
+
+      textElements.forEach((el) => {
+        if (!el) return;
+
+        const split = SplitText.create(el, {
+          type: "words",
+          mask: "words",
+        });
+
+        splitsRef.current.push(split);
+
+        textAnimations.push(
+          gsap.fromTo(
+            split.words,
+            { yPercent: 100 },
+            {
+              yPercent: 0,
+              duration: 0.6,
+              stagger: 0.05,
+              ease: "power3.out",
+            }
+          )
+        );
+      });
+
+      if (textAnimations.length > 0) {
+        tl.add(textAnimations, "-=0.5");
+      }
+
+      if (linkEl) {
         tl.fromTo(
-          text,
-          { x: isEven ? 40 : -40, opacity: 0 },
-          { x: 0, opacity: 1, duration: 0.7, ease: "power3.out" },
-          "-=0.5"
+          linkEl,
+          { y: 20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" },
+          "-=0.3"
         );
       }
     });
+
+    return () => {
+      splitsRef.current.forEach((split) => split.revert());
+      splitsRef.current = [];
+    };
   }, { scope: containerRef });
 
   return (
@@ -143,23 +218,23 @@ export default function PortfolioPage() {
                 {/* Text */}
                 <div className={`project-text lg:col-span-2 ${!isEven ? "lg:col-start-1 lg:row-start-1" : ""}`}>
                   <div className="flex items-center gap-4 mb-4">
-                    <span className="text-xs font-mono text-stone-400">
+                    <span className="project-year text-xs font-mono text-stone-400">
                       {project.year}
                     </span>
                     <span className="w-8 h-px bg-stone-300" />
-                    <span className="text-xs font-mono text-cyan-600 uppercase tracking-wider">
+                    <span className="project-category text-xs font-mono text-cyan-600 uppercase tracking-wider">
                       {project.category}
                     </span>
                   </div>
-                  <h2 className="font-serif text-3xl md:text-4xl text-[#1c1917] leading-tight">
+                  <h2 className="project-title font-serif text-3xl md:text-4xl text-[#1c1917] leading-tight">
                     {project.title}
                   </h2>
-                  <p className="text-stone-500 mt-4 leading-relaxed">
+                  <p className="project-desc text-stone-500 mt-4 leading-relaxed">
                     {project.description}
                   </p>
                   <Link
                     href="/contact"
-                    className="inline-flex items-center gap-2 mt-6 text-sm font-medium text-stone-500 hover:text-cyan-600 transition-colors group"
+                    className="project-link inline-flex items-center gap-2 mt-6 text-sm font-medium text-stone-500 hover:text-cyan-600 transition-colors group"
                   >
                     View Project
                     <span className="inline-block transition-transform group-hover:translate-x-1">
