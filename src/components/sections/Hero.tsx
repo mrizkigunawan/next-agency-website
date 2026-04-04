@@ -4,31 +4,64 @@ import Link from "next/link";
 import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { SplitText } from "gsap/SplitText";
 import { useGSAP } from "@gsap/react";
 
-gsap.registerPlugin(ScrollTrigger, useGSAP);
+gsap.registerPlugin(ScrollTrigger, SplitText, useGSAP);
 
 export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const splitsRef = useRef<ReturnType<typeof SplitText.create>[]>([]);
 
   useGSAP(() => {
-    gsap.fromTo(
-      ".hero-line",
-      { y: 100, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1, stagger: 0.12, ease: "power3.out" }
-    );
+    const heroTitle = containerRef.current?.querySelector(".hero-title");
+    const heroSub = containerRef.current?.querySelector(".hero-sub");
+    const heroCta = containerRef.current?.querySelector(".hero-cta");
 
-    gsap.fromTo(
-      ".hero-sub",
-      { y: 40, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8, delay: 0.5, ease: "power3.out" }
-    );
+    const tl = gsap.timeline();
 
-    gsap.fromTo(
-      ".hero-cta",
-      { y: 40, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8, delay: 0.7, ease: "power3.out" }
-    );
+    if (heroTitle) {
+      const split = SplitText.create(heroTitle, {
+        type: "words",
+        mask: "words",
+      });
+      splitsRef.current.push(split);
+
+      tl.fromTo(
+        split.words,
+        { yPercent: 100 },
+        { yPercent: 0, stagger: 0.05, ease: "power3.out" }
+      );
+    }
+
+    if (heroSub) {
+      const split = SplitText.create(heroSub, {
+        type: "words",
+        mask: "words",
+      });
+      splitsRef.current.push(split);
+
+      tl.fromTo(
+        split.words,
+        { yPercent: 100 },
+        { yPercent: 0, stagger: 0.03, ease: "power3.out" },
+        "<"
+      );
+    }
+
+    if (heroCta) {
+      tl.fromTo(
+        heroCta,
+        { y: 40, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" },
+        "-=0.3"
+      );
+    }
+
+    return () => {
+      splitsRef.current.forEach((split) => split.revert());
+      splitsRef.current = [];
+    };
   }, { scope: containerRef });
 
   return (
@@ -40,13 +73,10 @@ export default function Hero() {
 
       <div className="max-w-7xl mx-auto relative flex items-center justify-center min-h-[60vh]">
         <div className="max-w-4xl text-center">
-          <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-[#1c1917] leading-[0.95] tracking-tight">
-            <span className="hero-line block">We craft digital</span>
-            <span className="hero-line block">experiences that</span>
-            <span className="hero-line block">
-              <span className="text-cyan-600">inspire</span> &amp;{" "}
-              <span className="text-cyan-600">engage</span>
-            </span>
+          <h1 className="hero-title font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-[#1c1917] leading-[0.95] tracking-tight">
+            We craft digital experiences that{" "}
+            <span className="text-cyan-600">inspire</span> &amp;{" "}
+            <span className="text-cyan-600">engage</span>
           </h1>
           <p className="hero-sub text-lg md:text-xl text-stone-500 mt-8 max-w-xl mx-auto leading-relaxed">
             A full-service digital studio helping brands connect with their
