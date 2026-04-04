@@ -4,13 +4,15 @@ import Link from "next/link";
 import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { SplitText } from "gsap/SplitText";
 import { useGSAP } from "@gsap/react";
 import PinnedImageBreak from "@/components/sections/PinnedImageBreak";
 
-gsap.registerPlugin(ScrollTrigger, useGSAP);
+gsap.registerPlugin(ScrollTrigger, SplitText, useGSAP);
 
 export default function ServicesPage() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const splitsRef = useRef<ReturnType<typeof SplitText.create>[]>([]);
 
   const services = [
     {
@@ -46,24 +48,56 @@ export default function ServicesPage() {
   ];
 
   useGSAP(() => {
-    // Hero entrance
-    gsap.fromTo(
-      ".hero-label",
-      { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.6, ease: "power3.out" }
-    );
+    // Hero animations
+    const heroLabel = document.querySelector(".hero-label");
+    const heroTitle = document.querySelector(".hero-title");
+    const heroDesc = document.querySelector(".hero-desc");
 
-    gsap.fromTo(
-      ".hero-title",
-      { y: 80, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8, delay: 0.15, ease: "power3.out" }
-    );
+    const heroTl = gsap.timeline();
 
-    gsap.fromTo(
-      ".hero-desc",
-      { y: 40, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.7, delay: 0.35, ease: "power3.out" }
-    );
+    if (heroLabel) {
+      const split = SplitText.create(heroLabel, {
+        type: "words",
+        mask: "words",
+      });
+      splitsRef.current.push(split);
+
+      heroTl.fromTo(
+        split.words,
+        { yPercent: 100 },
+        { yPercent: 0, stagger: 0.05, ease: "power3.out" }
+      );
+    }
+
+    if (heroTitle) {
+      const split = SplitText.create(heroTitle, {
+        type: "chars",
+        mask: "chars",
+      });
+      splitsRef.current.push(split);
+
+      heroTl.fromTo(
+        split.chars,
+        { yPercent: 100 },
+        { yPercent: 0, stagger: 0.05, ease: "power3.out" },
+        "-=0.3"
+      );
+    }
+
+    if (heroDesc) {
+      const split = SplitText.create(heroDesc, {
+        type: "words",
+        mask: "words",
+      });
+      splitsRef.current.push(split);
+
+      heroTl.fromTo(
+        split.words,
+        { yPercent: 100 },
+        { yPercent: 0, stagger: 0.03, ease: "power3.out" },
+        "<"
+      );
+    }
 
     // Section reveals
     gsap.utils.toArray<HTMLElement>(".reveal-section").forEach((section) => {
@@ -118,6 +152,11 @@ export default function ServicesPage() {
         );
       }
     });
+
+    return () => {
+      splitsRef.current.forEach((split) => split.revert());
+      splitsRef.current = [];
+    };
   }, { scope: containerRef });
 
   return (
