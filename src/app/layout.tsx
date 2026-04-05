@@ -28,6 +28,8 @@ export const metadata: Metadata = {
   description: "Creating digital experiences that inspire and engage.",
 };
 
+import InitialLoader from "@/components/layout/InitialLoader";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -39,6 +41,7 @@ export default function RootLayout({
       className={`${playfair.variable} ${outfit.variable} ${jetbrainsMono.variable}`}
     >
       <body className="min-h-screen flex flex-col bg-[#fafaf9] text-[#1c1917]">
+        <InitialLoader />
         <TransitionProvider>
           <SmoothScroll>
             <Header />
