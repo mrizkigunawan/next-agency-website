@@ -31,7 +31,10 @@ export default function InitialLoader() {
               yPercent: -100,
               duration: 0.8,
               ease: "power3.inOut",
-              onComplete: () => setIsVisible(false),
+              onComplete: () => {
+                setIsVisible(false);
+                window.dispatchEvent(new CustomEvent("loader:complete"));
+              },
             });
           }
         }, remaining);
@@ -45,7 +48,10 @@ export default function InitialLoader() {
             yPercent: -100,
             duration: 0.8,
             ease: "power3.inOut",
-            onComplete: () => setIsVisible(false),
+            onComplete: () => {
+              setIsVisible(false);
+              window.dispatchEvent(new CustomEvent("loader:complete"));
+            },
           });
         }
       }, MIN_DISPLAY_TIME);

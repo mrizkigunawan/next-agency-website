@@ -78,7 +78,7 @@ export default function WhyUs() {
               ref.textContent = Math.round(obj.val) + suffix;
             },
           },
-          "-=0.6"
+          "<"
         );
       }
     });
