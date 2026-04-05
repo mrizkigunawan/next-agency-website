@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import Lenis from "lenis";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -12,6 +13,8 @@ export default function SmoothScroll({
   children: React.ReactNode;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const lenisRef = useRef<Lenis | null>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
     const lenis = new Lenis({
@@ -25,6 +28,8 @@ export default function SmoothScroll({
       infinite: false,
     });
 
+    lenisRef.current = lenis;
+
     // Connect Lenis to GSAP ScrollTrigger
     lenis.on("scroll", ScrollTrigger.update);
 
@@ -37,8 +42,14 @@ export default function SmoothScroll({
     return () => {
       gsap.ticker.remove(lenis.raf);
       lenis.destroy();
+      lenisRef.current = null;
     };
   }, []);
+
+  // Reset scroll position on route change
+  useEffect(() => {
+    lenisRef.current?.scrollTo(0, { immediate: true });
+  }, [pathname]);
 
   return <div ref={containerRef}>{children}</div>;
 }
