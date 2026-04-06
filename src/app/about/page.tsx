@@ -153,7 +153,7 @@ export default function AboutPage() {
               vision to life.
             </p>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8">
             {team.map((member, i) => (
               <div
                 key={i}

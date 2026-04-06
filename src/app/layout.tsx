@@ -41,7 +41,7 @@ export default function RootLayout({
       className={`${playfair.variable} ${outfit.variable} ${jetbrainsMono.variable}`}
     >
       <body className="min-h-screen flex flex-col bg-[#fafaf9] text-[#1c1917]">
-        {/* <InitialLoader /> */}
+        <InitialLoader />
         <TransitionProvider>
           <SmoothScroll>
             <Header />

@@ -75,7 +75,7 @@ export default function TeamPreview() {
             deeply about their craft.
           </p>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8">
           {teamMembers.map((member, i) => (
             <div
               key={i}

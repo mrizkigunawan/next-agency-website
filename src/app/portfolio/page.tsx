@@ -5,7 +5,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { gsap, SplitText, useGSAP } from "@/lib/gsap";
 import { useHeroAnimation } from "@/hooks/useHeroAnimation";
-import RevealImageBreak from "@/components/sections/RevealImageBreak";
 
 const projects = [
   {
@@ -211,11 +210,6 @@ export default function PortfolioPage() {
           </section>
         );
       })}
-
-      <RevealImageBreak
-        src="/images/team-3.webp"
-        alt="Our portfolio showcase"
-      />
 
       <section className="reveal-section py-28 px-6 bg-cyan-600">
         <div className="max-w-7xl mx-auto text-center">
