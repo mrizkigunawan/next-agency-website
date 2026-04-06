@@ -19,21 +19,21 @@ export default function HomePage() {
       <TrustedBy />
       <WhyUs />
       <PinnedImageBreak
-        src="https://placehold.co/1920x1080/e2e8f0/1c1917"
+        src="/images/team-3.webp"
         alt="Team working together"
       />
       <Services />
       <FeaturedWork />
       <Process />
       <ClipImageBreak
-        src="https://placehold.co/1920x1080/d6d3d1/1c1917"
+        src="/images/team-1.webp"
         alt="Creative process in action"
       />
       <Testimonials />
       <TeamPreview />
       <Pricing />
       <RevealImageBreak
-        src="https://placehold.co/1920x1080/cbd5e1/1c1917"
+        src="/images/team-2.webp"
         alt="Office culture and collaboration"
       />
       <ContactCta />

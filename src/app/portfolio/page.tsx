@@ -59,69 +59,51 @@ export default function PortfolioPage() {
     const heroTitle = document.querySelector(".hero-title");
     const heroDesc = document.querySelector(".hero-desc");
 
-    const runHeroAnimation = () => {
-      const heroTl = gsap.timeline();
+    const heroTl = gsap.timeline();
 
-      if (heroLabel) {
-        const split = SplitText.create(heroLabel, {
-          type: "words",
-          mask: "words",
-        });
-        splitsRef.current.push(split);
+    if (heroLabel) {
+      const split = SplitText.create(heroLabel, {
+        type: "words",
+        mask: "words",
+      });
+      splitsRef.current.push(split);
 
-        heroTl.fromTo(
-          split.words,
-          { yPercent: 100 },
-          { yPercent: 0, stagger: 0.05, ease: "power3.out" }
-        );
-      }
+      heroTl.fromTo(
+        split.words,
+        { yPercent: 100 },
+        { yPercent: 0, duration: 0.6, stagger: 0.05, ease: "power3.out" }
+      );
+    }
 
-      if (heroTitle) {
-        const split = SplitText.create(heroTitle, {
-          type: "chars",
-          mask: "chars",
-        });
-        splitsRef.current.push(split);
+    if (heroTitle) {
+      const split = SplitText.create(heroTitle, {
+        type: "chars",
+        mask: "chars",
+      });
+      splitsRef.current.push(split);
 
-        heroTl.fromTo(
-          split.chars,
-          { yPercent: 100 },
-          { yPercent: 0, stagger: 0.05, ease: "power3.out" },
-          "-=0.3"
-        );
-      }
+      heroTl.fromTo(
+        split.chars,
+        { yPercent: 100 },
+        { yPercent: 0, stagger: 0.05, ease: "power3.out" },
+        "-=0.3"
+      );
+    }
 
-      if (heroDesc) {
-        const split = SplitText.create(heroDesc, {
-          type: "words",
-          mask: "words",
-        });
-        splitsRef.current.push(split);
+    if (heroDesc) {
+      const split = SplitText.create(heroDesc, {
+        type: "words",
+        mask: "words",
+      });
+      splitsRef.current.push(split);
 
-        heroTl.fromTo(
-          split.words,
-          { yPercent: 100 },
-          { yPercent: 0, stagger: 0.03, ease: "power3.out" },
-          "<"
-        );
-      }
-    };
-
-    const loaderComplete = new CustomEvent("loader:check");
-    let loaderDone = false;
-
-    window.addEventListener("loader:complete", () => {
-      loaderDone = true;
-      runHeroAnimation();
-    }, { once: true });
-
-    window.dispatchEvent(loaderComplete);
-
-    setTimeout(() => {
-      if (!loaderDone) {
-        runHeroAnimation();
-      }
-    }, 100);
+      heroTl.fromTo(
+        split.words,
+        { yPercent: 100 },
+        { yPercent: 0, stagger: 0.03, ease: "power3.out" },
+        "<"
+      );
+    }
 
     // Project sections
     gsap.utils.toArray<HTMLElement>(".project-section").forEach((section, i) => {
@@ -267,7 +249,7 @@ export default function PortfolioPage() {
       })}
 
       <RevealImageBreak
-        src="https://placehold.co/1920x1080/e5e7eb/1c1917"
+        src="/images/team-3.webp"
         alt="Our portfolio showcase"
       />
 
