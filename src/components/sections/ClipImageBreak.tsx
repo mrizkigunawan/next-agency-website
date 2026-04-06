@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -35,12 +36,13 @@ export default function ClipImageBreak({
 
   return (
     <div ref={containerRef} className="w-full h-screen overflow-hidden relative">
-      <img
+      <Image
         ref={imgRef}
         src={src}
         alt={alt}
-        className="w-full h-full object-cover"
-        style={{ clipPath: "circle(20% at 50% 50%)", scale: "1.2" }}
+        fill
+        className="object-cover"
+        style={{ clipPath: "circle(20% at 50% 50%)", scale: "1.2" } as React.CSSProperties}
       />
     </div>
   );

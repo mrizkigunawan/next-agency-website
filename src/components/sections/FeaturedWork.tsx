@@ -13,16 +13,22 @@ const featuredWork = [
     title: "TechStart Landing Page",
     category: "Web Design",
     desc: "A modern landing page for a fintech startup with interactive elements and conversion-focused design.",
+    imgSrc: '/images/techstart-landing-page.png',
+    imgAlt: 'Shots from https://dribbble.com/shots/25878516-Supastars-Digital-Agency-Landing-Page',
   },
   {
     title: "Bloom Brand Identity",
     category: "Branding",
     desc: "Complete brand identity for an eco-friendly lifestyle brand rooted in authenticity and warmth.",
+    imgSrc: '/images/bloom-branding.jpg',
+    imgAlt: 'Shots from https://dribbble.com/shots/26537554-Transverde-logo-and-branding',
   },
   {
     title: "Finance Dashboard",
     category: "Web App",
     desc: "A comprehensive dashboard for financial data visualization with real-time analytics.",
+    imgSrc: '/images/finance-dashboard.png',
+    imgAlt: 'Shots from https://dribbble.com/shots/25275049-Finance-Dashboard',
   },
 ];
 
@@ -84,10 +90,10 @@ export default function FeaturedWork() {
               key={i}
               className="project-card flex-shrink-0 w-[80vw] md:w-[60vw] lg:w-[50vw]"
             >
-              <div className="card-image rounded-2xl aspect-[16/10] overflow-hidden relative mb-6">
+              <div className="card-image rounded-2xl aspect-4/3 overflow-hidden relative mb-6">
                 <img
-                  src={`https://placehold.co/800x500/e7e5e4/1c1917?text=${String(i + 1).padStart(2, "0")}`}
-                  alt={project.title}
+                  src={project.imgSrc}
+                  alt={project.imgAlt}
                   className="w-full h-full object-cover"
                 />
               </div>

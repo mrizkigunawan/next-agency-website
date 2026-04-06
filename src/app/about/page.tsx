@@ -1,23 +1,22 @@
 "use client";
 
 import { useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { SplitText } from "gsap/SplitText";
-import { useGSAP } from "@gsap/react";
+import Image from "next/image";
+import { useHeroAnimation } from "@/hooks/useHeroAnimation";
+import { useSectionReveal } from "@/hooks/useSectionReveal";
 import PinnedImageBreak from "@/components/sections/PinnedImageBreak";
-
-gsap.registerPlugin(ScrollTrigger, SplitText, useGSAP);
 
 export default function AboutPage() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const splitsRef = useRef<ReturnType<typeof SplitText.create>[]>([]);
+
+  useHeroAnimation(containerRef);
+  useSectionReveal(containerRef);
 
   const team = [
-    { name: "Sarah Johnson", role: "CEO & Founder" },
-    { name: "Michael Chen", role: "Creative Director" },
-    { name: "Emily Davis", role: "Lead Developer" },
-    { name: "James Wilson", role: "Strategy Lead" },
+    { name: "Sarah Johnson", role: "CEO & Founder", image: "/images/sarah-johnson.jpg" },
+    { name: "Michael Chen", role: "Creative Director", image: "/images/michael-chen.jpg" },
+    { name: "Emily Davis", role: "Lead Developer", image: "/images/emily-davis.jpg" },
+    { name: "James Wilson", role: "Strategy Lead", image: "/images/james-wilson.jpg" },
   ];
 
   const values = [
@@ -38,172 +37,6 @@ export default function AboutPage() {
       desc: "Honest, transparent, and accountable in all our relationships.",
     },
   ];
-
-  useGSAP(() => {
-    // Hero animations
-    const heroLabel = document.querySelector(".hero-label");
-    const heroTitle = document.querySelector(".hero-title");
-    const heroDesc = document.querySelector(".hero-desc");
-
-    const heroTl = gsap.timeline();
-
-    if (heroLabel) {
-      const split = SplitText.create(heroLabel, {
-        type: "words",
-        mask: "words",
-      });
-      splitsRef.current.push(split);
-
-      heroTl.fromTo(
-        split.words,
-        { yPercent: 100 },
-        { yPercent: 0, stagger: 0.05, ease: "power3.out" }
-      );
-    }
-
-    if (heroTitle) {
-      const split = SplitText.create(heroTitle, {
-        type: "chars",
-        mask: "chars",
-      });
-      splitsRef.current.push(split);
-
-      heroTl.fromTo(
-        split.chars,
-        { yPercent: 100 },
-        { yPercent: 0, stagger: 0.05, ease: "power3.out" },
-        "-=0.3"
-      );
-    }
-
-    if (heroDesc) {
-      const split = SplitText.create(heroDesc, {
-        type: "words",
-        mask: "words",
-      });
-      splitsRef.current.push(split);
-
-      heroTl.fromTo(
-        split.words,
-        { yPercent: 100 },
-        { yPercent: 0, stagger: 0.03, ease: "power3.out" },
-        "<"
-      );
-    }
-
-    // Section reveals
-    gsap.utils.toArray<HTMLElement>(".reveal-section").forEach((section) => {
-      const label = section.querySelector(".section-label");
-      const title = section.querySelector(".section-title");
-      const desc = section.querySelector(".section-desc");
-      const items = gsap.utils.toArray<HTMLElement>(".reveal-item", section);
-
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: section,
-          start: "top 75%",
-        },
-      });
-
-      if (label) {
-        tl.fromTo(
-          label,
-          { y: 30, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" }
-        );
-      }
-
-      if (title) {
-        tl.fromTo(
-          title,
-          { y: 50, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.6, ease: "power3.out" },
-          "-=0.3"
-        );
-      }
-
-      if (desc) {
-        tl.fromTo(
-          desc,
-          { y: 30, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" },
-          "-=0.3"
-        );
-      }
-
-      if (items.length > 0) {
-        tl.from(
-          items,
-          {
-            y: 50,
-            opacity: 0,
-            duration: 0.6,
-            stagger: 0.1,
-            ease: "power3.out",
-          },
-          "-=0.3"
-        );
-      }
-    });
-
-    // Split column animations
-    gsap.utils.toArray<HTMLElement>(".reveal-left").forEach((el) => {
-      gsap.fromTo(
-        el,
-        { x: -60, opacity: 0 },
-        {
-          x: 0,
-          opacity: 1,
-          duration: 0.8,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: el,
-            start: "top 80%",
-          },
-        }
-      );
-    });
-
-    gsap.utils.toArray<HTMLElement>(".reveal-right").forEach((el) => {
-      gsap.fromTo(
-        el,
-        { x: 60, opacity: 0 },
-        {
-          x: 0,
-          opacity: 1,
-          duration: 0.8,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: el,
-            start: "top 80%",
-          },
-        }
-      );
-    });
-
-    // Scale reveals
-    gsap.utils.toArray<HTMLElement>(".reveal-scale").forEach((el) => {
-      gsap.fromTo(
-        el,
-        { scale: 0.85, opacity: 0 },
-        {
-          scale: 1,
-          opacity: 1,
-          duration: 0.7,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: el,
-            start: "top 85%",
-          },
-        }
-      );
-    });
-
-    return () => {
-      splitsRef.current.forEach((split) => split.revert());
-      splitsRef.current = [];
-    };
-  }, { scope: containerRef });
 
   return (
     <div ref={containerRef}>
@@ -326,11 +159,15 @@ export default function AboutPage() {
                 key={i}
                 className="reveal-item bg-white p-8 rounded-2xl text-center group hover:bg-stone-50 transition-colors duration-300"
               >
-                <img
-                  src={`https://placehold.co/128x128/e7e5e4/1c1917?text=${member.name.split(" ").map((n) => n[0]).join("")}`}
-                  alt={member.name}
-                  className="reveal-scale w-32 h-32 rounded-full mx-auto mb-5 object-cover"
-                />
+                <div className="reveal-scale w-32 h-32 rounded-full mx-auto mb-5 overflow-hidden relative">
+                  <Image
+                    src={member.image}
+                    alt={member.name}
+                    width={128}
+                    height={128}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
                 <h3 className="font-serif text-lg text-[#1c1917]">
                   {member.name}
                 </h3>

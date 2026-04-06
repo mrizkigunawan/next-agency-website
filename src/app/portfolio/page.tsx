@@ -1,14 +1,11 @@
 "use client";
 
-import Link from "next/link";
 import { useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { SplitText } from "gsap/SplitText";
-import { useGSAP } from "@gsap/react";
+import Link from "next/link";
+import Image from "next/image";
+import { gsap, SplitText, useGSAP } from "@/lib/gsap";
+import { useHeroAnimation } from "@/hooks/useHeroAnimation";
 import RevealImageBreak from "@/components/sections/RevealImageBreak";
-
-gsap.registerPlugin(ScrollTrigger, SplitText, useGSAP);
 
 const projects = [
   {
@@ -16,36 +13,48 @@ const projects = [
     category: "Web Design",
     description: "A modern landing page for a fintech startup with interactive elements and conversion-focused design.",
     year: "2024",
+    imgSrc: '/images/techstart-landing-page.png',
+    imgAlt: 'Shots from https://dribbble.com/shots/25878516-Supastars-Digital-Agency-Landing-Page',
   },
   {
     title: "Bloom Brand Identity",
     category: "Branding",
     description: "Complete brand identity for an eco-friendly lifestyle brand rooted in authenticity and warmth.",
     year: "2024",
+    imgSrc: '/images/bloom-branding.jpg',
+    imgAlt: 'Shots from https://dribbble.com/shots/26537554-Transverde-logo-and-branding',
   },
   {
     title: "Finance Dashboard",
     category: "Web App",
     description: "A comprehensive dashboard for financial data visualization with real-time analytics.",
     year: "2023",
+    imgSrc: '/images/finance-dashboard.png',
+    imgAlt: 'Shots from https://dribbble.com/shots/25275049-Finance-Dashboard',
   },
   {
     title: "Artisan E-commerce",
     category: "E-commerce",
     description: "Online store for handmade crafts with seamless checkout and inventory management.",
     year: "2023",
+    imgSrc: '/images/handcrafts-ecommerce.webp',
+    imgAlt: 'Shots from https://dribbble.com/shots/18089794-Handcraft-Website',
   },
   {
     title: "Health & Wellness App",
     category: "Mobile App",
     description: "Fitness tracking app with social features, gamification, and personalized coaching.",
     year: "2023",
+    imgSrc: '/images/fitness-app.webp',
+    imgAlt: 'Shots from https://dribbble.com/shots/22946165-Fitness-App-Concept',
   },
   {
     title: "Corporate Website",
     category: "Web Design",
     description: "Professional website for a management consulting firm with case studies and team profiles.",
     year: "2022",
+    imgSrc: '/images/corporate-website.webp',
+    imgAlt: 'Shots from https://dribbble.com/shots/20020674-Maverick-Corporate-website-design-for-consulting-agency',
   },
 ];
 
@@ -53,128 +62,84 @@ export default function PortfolioPage() {
   const containerRef = useRef<HTMLDivElement>(null);
   const splitsRef = useRef<ReturnType<typeof SplitText.create>[]>([]);
 
-  useGSAP(() => {
-    // Hero animations
-    const heroLabel = document.querySelector(".hero-label");
-    const heroTitle = document.querySelector(".hero-title");
-    const heroDesc = document.querySelector(".hero-desc");
+  useHeroAnimation(containerRef);
 
-    const heroTl = gsap.timeline();
+  useGSAP(
+    () => {
+      const scope = containerRef.current;
+      if (!scope) return;
 
-    if (heroLabel) {
-      const split = SplitText.create(heroLabel, {
-        type: "words",
-        mask: "words",
-      });
-      splitsRef.current.push(split);
+      gsap.utils.toArray<HTMLElement>(".project-section").forEach((section) => {
+        const image = section.querySelector(".project-image");
+        const yearEl = section.querySelector(".project-year");
+        const categoryEl = section.querySelector(".project-category");
+        const titleEl = section.querySelector(".project-title");
+        const descEl = section.querySelector(".project-desc");
+        const linkEl = section.querySelector(".project-link");
 
-      heroTl.fromTo(
-        split.words,
-        { yPercent: 100 },
-        { yPercent: 0, duration: 0.6, stagger: 0.05, ease: "power3.out" }
-      );
-    }
-
-    if (heroTitle) {
-      const split = SplitText.create(heroTitle, {
-        type: "chars",
-        mask: "chars",
-      });
-      splitsRef.current.push(split);
-
-      heroTl.fromTo(
-        split.chars,
-        { yPercent: 100 },
-        { yPercent: 0, stagger: 0.05, ease: "power3.out" },
-        "-=0.3"
-      );
-    }
-
-    if (heroDesc) {
-      const split = SplitText.create(heroDesc, {
-        type: "words",
-        mask: "words",
-      });
-      splitsRef.current.push(split);
-
-      heroTl.fromTo(
-        split.words,
-        { yPercent: 100 },
-        { yPercent: 0, stagger: 0.03, ease: "power3.out" },
-        "<"
-      );
-    }
-
-    // Project sections
-    gsap.utils.toArray<HTMLElement>(".project-section").forEach((section, i) => {
-      const image = section.querySelector(".project-image");
-      const yearEl = section.querySelector(".project-year");
-      const categoryEl = section.querySelector(".project-category");
-      const titleEl = section.querySelector(".project-title");
-      const descEl = section.querySelector(".project-desc");
-      const linkEl = section.querySelector(".project-link");
-
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: section,
-          start: "top 70%",
-        },
-      });
-
-      if (image) {
-        tl.fromTo(
-          image,
-          { scale: 0.92, opacity: 0 },
-          { scale: 1, opacity: 1, duration: 0.8, ease: "power3.out" }
-        );
-      }
-
-      const textElements = [yearEl, categoryEl, titleEl, descEl];
-      const textAnimations: ReturnType<typeof gsap.fromTo>[] = [];
-
-      textElements.forEach((el) => {
-        if (!el) return;
-
-        const split = SplitText.create(el, {
-          type: "words",
-          mask: "words",
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: section,
+            start: "top 70%",
+          },
         });
 
-        splitsRef.current.push(split);
+        if (image) {
+          tl.fromTo(
+            image,
+            { scale: 0.92, opacity: 0 },
+            { scale: 1, opacity: 1, duration: 0.8, ease: "power3.out" }
+          );
+        }
 
-        textAnimations.push(
-          gsap.fromTo(
-            split.words,
-            { yPercent: 100 },
-            {
-              yPercent: 0,
-              duration: 0.6,
-              stagger: 0.05,
-              ease: "power3.out",
-            }
-          )
-        );
+        const textElements = [yearEl, categoryEl, titleEl, descEl];
+        const textAnimations: ReturnType<typeof gsap.fromTo>[] = [];
+
+        textElements.forEach((el) => {
+          if (!el) return;
+
+          const split = SplitText.create(el, {
+            type: "words",
+            mask: "words",
+          });
+
+          splitsRef.current.push(split);
+
+          textAnimations.push(
+            gsap.fromTo(
+              split.words,
+              { yPercent: 100 },
+              {
+                yPercent: 0,
+                duration: 0.6,
+                stagger: 0.05,
+                ease: "power3.out",
+              }
+            )
+          );
+        });
+
+        if (textAnimations.length > 0) {
+          tl.add(textAnimations, "-=0.5");
+        }
+
+        if (linkEl) {
+          tl.fromTo(
+            linkEl,
+            { y: 20, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" },
+            "-=0.3"
+          );
+        }
       });
 
-      if (textAnimations.length > 0) {
-        tl.add(textAnimations, "-=0.5");
-      }
-
-      if (linkEl) {
-        tl.fromTo(
-          linkEl,
-          { y: 20, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" },
-          "-=0.3"
-        );
-      }
-    });
-
-    return () => {
-      splitsRef.current.forEach((split) => split.revert());
-      splitsRef.current = [];
-    };
-  }, { scope: containerRef });
+      return () => {
+        splitsRef.current.forEach((split) => split.revert());
+        splitsRef.current = [];
+      };
+    },
+    { scope: containerRef }
+  );
 
   return (
     <div ref={containerRef}>
@@ -204,18 +169,17 @@ export default function PortfolioPage() {
           >
             <div className="max-w-7xl mx-auto">
               <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-16 items-center">
-                {/* Image */}
                 <div className={`project-image lg:col-span-3 ${!isEven ? "lg:col-start-3" : ""}`}>
-                  <div className="rounded-2xl aspect-[16/10] overflow-hidden relative">
-                    <img
-                      src={`https://placehold.co/800x500/e7e5e4/1c1917?text=${String(i + 1).padStart(2, "0")}`}
-                      alt={project.title}
-                      className="w-full h-full object-cover"
+                  <div className="rounded-2xl aspect-[4/3] overflow-hidden relative">
+                    <Image
+                      src={project.imgSrc}
+                      alt={project.imgAlt}
+                      fill
+                      className="object-cover"
                     />
                   </div>
                 </div>
 
-                {/* Text */}
                 <div className={`project-text lg:col-span-2 ${!isEven ? "lg:col-start-1 lg:row-start-1" : ""}`}>
                   <div className="flex items-center gap-4 mb-4">
                     <span className="project-year text-xs font-mono text-stone-400">

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -9,10 +10,10 @@ import { useGSAP } from "@gsap/react";
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 const teamMembers = [
-  { name: "Sarah Johnson", role: "CEO & Founder" },
-  { name: "Michael Chen", role: "Creative Director" },
-  { name: "Emily Davis", role: "Lead Developer" },
-  { name: "James Wilson", role: "Strategy Lead" },
+  { name: "Sarah Johnson", role: "CEO & Founder", image: "/images/sarah-johnson.jpg" },
+  { name: "Michael Chen", role: "Creative Director", image: "/images/michael-chen.jpg" },
+  { name: "Emily Davis", role: "Lead Developer", image: "/images/emily-davis.jpg" },
+  { name: "James Wilson", role: "Strategy Lead", image: "/images/james-wilson.jpg" },
 ];
 
 export default function TeamPreview() {
@@ -80,11 +81,15 @@ export default function TeamPreview() {
               key={i}
               className="reveal-item bg-white p-8 rounded-2xl text-center group hover:bg-stone-50 transition-colors duration-300"
             >
-              <img
-                src={`https://placehold.co/128x128/e7e5e4/1c1917?text=${member.name.split(" ").map((n) => n[0]).join("")}`}
-                alt={member.name}
-                className="reveal-scale w-32 h-32 rounded-full mx-auto mb-5 object-cover"
-              />
+              <div className="reveal-scale w-32 h-32 rounded-full mx-auto mb-5 overflow-hidden relative">
+                <Image
+                  src={member.image}
+                  alt={member.name}
+                  width={128}
+                  height={128}
+                  className="w-full h-full object-cover"
+                />
+              </div>
               <h3 className="font-serif text-lg text-[#1c1917]">
                 {member.name}
               </h3>

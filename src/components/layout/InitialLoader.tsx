@@ -11,34 +11,16 @@ export default function InitialLoader() {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const images = Array.from(document.images);
-    const totalImages = images.length;
-    let loadedCount = 0;
     const startTime = Date.now();
+    let hasDismissed = false;
 
-    const updateProgress = () => {
-      loadedCount++;
-      const newProgress = totalImages > 0 ? (loadedCount / totalImages) * 100 : 100;
-      setProgress(Math.min(newProgress, 100));
+    const dismiss = () => {
+      if (hasDismissed) return;
+      hasDismissed = true;
 
-      if (loadedCount >= totalImages) {
-        const elapsed = Date.now() - startTime;
-        const remaining = Math.max(0, MIN_DISPLAY_TIME - elapsed);
+      const elapsed = Date.now() - startTime;
+      const remaining = Math.max(0, MIN_DISPLAY_TIME - elapsed);
 
-        setTimeout(() => {
-          if (curtainRef.current) {
-            gsap.to(curtainRef.current, {
-              yPercent: -100,
-              duration: 0.8,
-              ease: "power3.inOut",
-              onComplete: () => setIsVisible(false),
-            });
-          }
-        }, remaining);
-      }
-    };
-
-    if (totalImages === 0) {
       setTimeout(() => {
         if (curtainRef.current) {
           gsap.to(curtainRef.current, {
@@ -48,17 +30,25 @@ export default function InitialLoader() {
             onComplete: () => setIsVisible(false),
           });
         }
-      }, MIN_DISPLAY_TIME);
-    } else {
-      images.forEach((img) => {
-        if (img.complete) {
-          updateProgress();
-        } else {
-          img.addEventListener("load", updateProgress, { once: true });
-          img.addEventListener("error", updateProgress, { once: true });
-        }
-      });
-    }
+      }, remaining);
+    };
+
+    const handleLoad = () => {
+      setProgress(100);
+      dismiss();
+    };
+
+    window.addEventListener("load", handleLoad, { once: true });
+
+    const fallbackTimeout = setTimeout(() => {
+      setProgress(100);
+      dismiss();
+    }, 5000);
+
+    return () => {
+      window.removeEventListener("load", handleLoad);
+      clearTimeout(fallbackTimeout);
+    };
   }, []);
 
   if (!isVisible) return null;

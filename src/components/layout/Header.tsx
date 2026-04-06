@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import gsap from "gsap";
 
 const navLinks = [
@@ -127,9 +127,9 @@ export default function Header() {
     }
   }, [isOpen]);
 
-  useEffect(() => {
+  const closeMenu = useCallback(() => {
     if (isOpen) setIsOpen(false);
-  }, [pathname]);
+  }, [isOpen]);
 
   return (
     <header
@@ -194,6 +194,7 @@ export default function Header() {
             <Link
               key={link.href}
               href={link.href}
+              onClick={closeMenu}
               ref={(el) => {
                 linksRef.current[i] = el;
               }}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -34,12 +35,15 @@ export default function PinnedImageBreak({
 
   return (
     <div ref={containerRef} className="w-full h-screen overflow-hidden relative">
-      <img
-        ref={imgRef}
-        src={src}
-        alt={alt}
-        className="w-full h-[calc(100vh+40px)] object-cover"
-      />
+      <div className="absolute inset-x-0 top-0 h-[calc(100vh+40px)] relative">
+        <Image
+          ref={imgRef}
+          src={src}
+          alt={alt}
+          fill
+          className="object-cover"
+        />
+      </div>
     </div>
   );
 }

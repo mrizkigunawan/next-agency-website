@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function ImageBreak({
   src,
   alt,
@@ -6,11 +8,12 @@ export default function ImageBreak({
   alt: string;
 }) {
   return (
-    <div className="w-full h-screen">
-      <img
+    <div className="w-full h-screen relative">
+      <Image
         src={src}
         alt={alt}
-        className="w-full h-full object-cover"
+        fill
+        className="object-cover"
       />
     </div>
   );

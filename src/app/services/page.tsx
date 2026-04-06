@@ -1,110 +1,41 @@
 "use client";
 
-import Link from "next/link";
 import { useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { SplitText } from "gsap/SplitText";
-import { useGSAP } from "@gsap/react";
+import Link from "next/link";
+import { useHeroAnimation } from "@/hooks/useHeroAnimation";
+import { gsap, useGSAP } from "@/lib/gsap";
 import PinnedImageBreak from "@/components/sections/PinnedImageBreak";
-
-gsap.registerPlugin(ScrollTrigger, SplitText, useGSAP);
 
 export default function ServicesPage() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const splitsRef = useRef<ReturnType<typeof SplitText.create>[]>([]);
 
-  const services = [
-    {
-      title: "Web Design & Development",
-      description: "Custom websites that are beautiful, functional, and optimized for performance.",
-      features: ["Responsive Design", "CMS Integration", "E-commerce", "SEO Optimized"],
-    },
-    {
-      title: "Brand Identity",
-      description: "Comprehensive branding that captures your unique essence and resonates with your audience.",
-      features: ["Logo Design", "Brand Guidelines", "Visual Identity", "Brand Strategy"],
-    },
-    {
-      title: "Digital Marketing",
-      description: "Strategic campaigns that increase visibility, drive traffic, and generate leads.",
-      features: ["SEO", "PPC Advertising", "Content Marketing", "Social Media"],
-    },
-    {
-      title: "UI/UX Design",
-      description: "User-centered designs that create seamless and delightful digital experiences.",
-      features: ["User Research", "Wireframing", "Prototyping", "Usability Testing"],
-    },
-    {
-      title: "Mobile Apps",
-      description: "Native and cross-platform mobile applications that engage users on the go.",
-      features: ["iOS Development", "Android Development", "App Design", "API Integration"],
-    },
-    {
-      title: "Consulting",
-      description: "Expert advice to help you navigate the digital landscape and make informed decisions.",
-      features: ["Digital Strategy", "Technical Audit", "Performance Review", "Team Training"],
-    },
-  ];
+  useHeroAnimation(containerRef);
 
   useGSAP(() => {
-    // Hero animations
-    const heroLabel = document.querySelector(".hero-label");
-    const heroTitle = document.querySelector(".hero-title");
-    const heroDesc = document.querySelector(".hero-desc");
+    const scope = containerRef.current;
+    if (!scope) return;
 
-    const heroTl = gsap.timeline();
+    gsap.utils.toArray<HTMLElement>(".services-section").forEach((section) => {
+      const items = gsap.utils.toArray<HTMLElement>(".service-card", section);
 
-    if (heroLabel) {
-      const split = SplitText.create(heroLabel, {
-        type: "words",
-        mask: "words",
+      gsap.from(items, {
+        y: 50,
+        opacity: 0,
+        duration: 0.6,
+        stagger: 0.08,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: section,
+          start: "top 75%",
+        },
       });
-      splitsRef.current.push(split);
+    });
 
-      heroTl.fromTo(
-        split.words,
-        { yPercent: 100 },
-        { yPercent: 0, stagger: 0.05, ease: "power3.out" }
-      );
-    }
-
-    if (heroTitle) {
-      const split = SplitText.create(heroTitle, {
-        type: "chars",
-        mask: "chars",
-      });
-      splitsRef.current.push(split);
-
-      heroTl.fromTo(
-        split.chars,
-        { yPercent: 100 },
-        { yPercent: 0, stagger: 0.05, ease: "power3.out" },
-        "-=0.3"
-      );
-    }
-
-    if (heroDesc) {
-      const split = SplitText.create(heroDesc, {
-        type: "words",
-        mask: "words",
-      });
-      splitsRef.current.push(split);
-
-      heroTl.fromTo(
-        split.words,
-        { yPercent: 100 },
-        { yPercent: 0, stagger: 0.03, ease: "power3.out" },
-        "<"
-      );
-    }
-
-    // Section reveals
-    gsap.utils.toArray<HTMLElement>(".reveal-section").forEach((section) => {
-      const label = section.querySelector(".section-label");
-      const title = section.querySelector(".section-title");
-      const desc = section.querySelector(".section-desc");
-      const items = gsap.utils.toArray<HTMLElement>(".reveal-item", section);
+    gsap.utils.toArray<HTMLElement>(".cta-section").forEach((section) => {
+      const label = section.querySelector(".cta-label");
+      const title = section.querySelector(".cta-title");
+      const desc = section.querySelector(".cta-desc");
+      const button = section.querySelector(".cta-button");
 
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -139,25 +70,49 @@ export default function ServicesPage() {
         );
       }
 
-      if (items.length > 0) {
-        tl.from(
-          items,
-          {
-            y: 50,
-            opacity: 0,
-            duration: 0.6,
-            stagger: 0.1,
-            ease: "power3.out",
-          }
+      if (button) {
+        tl.fromTo(
+          button,
+          { y: 30, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" },
+          "-=0.3"
         );
       }
     });
-
-    return () => {
-      splitsRef.current.forEach((split) => split.revert());
-      splitsRef.current = [];
-    };
   }, { scope: containerRef });
+
+  const services = [
+    {
+      title: "Web Design & Development",
+      description: "Custom websites that are beautiful, functional, and optimized for performance.",
+      features: ["Responsive Design", "CMS Integration", "E-commerce", "SEO Optimized"],
+    },
+    {
+      title: "Brand Identity",
+      description: "Comprehensive branding that captures your unique essence and resonates with your audience.",
+      features: ["Logo Design", "Brand Guidelines", "Visual Identity", "Brand Strategy"],
+    },
+    {
+      title: "Digital Marketing",
+      description: "Strategic campaigns that increase visibility, drive traffic, and generate leads.",
+      features: ["SEO", "PPC Advertising", "Content Marketing", "Social Media"],
+    },
+    {
+      title: "UI/UX Design",
+      description: "User-centered designs that create seamless and delightful digital experiences.",
+      features: ["User Research", "Wireframing", "Prototyping", "Usability Testing"],
+    },
+    {
+      title: "Mobile Apps",
+      description: "Native and cross-platform mobile applications that engage users on the go.",
+      features: ["iOS Development", "Android Development", "App Design", "API Integration"],
+    },
+    {
+      title: "Consulting",
+      description: "Expert advice to help you navigate the digital landscape and make informed decisions.",
+      features: ["Digital Strategy", "Technical Audit", "Performance Review", "Team Training"],
+    },
+  ];
 
   return (
     <div ref={containerRef}>
@@ -181,13 +136,13 @@ export default function ServicesPage() {
         alt="Our services in action"
       />
 
-      <section className="reveal-section py-12 px-6 pb-28 bg-white relative">
+      <section className="services-section py-12 px-6 pb-28 bg-white relative">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-stone-200">
             {services.map((service, i) => (
               <div
                 key={i}
-                className="reveal-item bg-[#fafaf9] p-8 md:p-12 group hover:bg-white transition-colors duration-300"
+                className="service-card bg-[#fafaf9] p-8 md:p-12 group hover:bg-white transition-colors duration-300"
               >
                 <span className="text-xs font-mono text-stone-400 mb-4 block">
                   {String(i + 1).padStart(2, "0")}
@@ -215,22 +170,22 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <section className="reveal-section py-28 px-6 bg-[#1c1917] text-white">
+      <section className="cta-section py-28 px-6 bg-[#1c1917] text-white">
         <div className="max-w-7xl mx-auto text-center">
-          <p className="text-xs font-mono uppercase tracking-[0.2em] text-stone-500 mb-4 section-label">
+          <p className="text-xs font-mono uppercase tracking-[0.2em] text-stone-500 mb-4 cta-label">
             Need something custom?
           </p>
-          <h2 className="font-serif text-3xl md:text-5xl mb-6 section-title">
+          <h2 className="font-serif text-3xl md:text-5xl mb-6 cta-title">
             Let&apos;s Build It Together
           </h2>
-          <p className="text-stone-400 text-lg mb-10 max-w-xl mx-auto section-desc">
+          <p className="text-stone-400 text-lg mb-10 max-w-xl mx-auto cta-desc">
             We love a challenge. Tell us about your project and we&apos;ll help
             you bring it to life with a solution designed specifically for your
             needs.
           </p>
           <Link
             href="/contact"
-            className="reveal-item inline-flex items-center px-8 py-4 bg-cyan-600 text-white font-medium rounded-full hover:bg-cyan-500 transition-colors duration-300"
+            className="cta-button inline-flex items-center px-8 py-4 bg-cyan-600 text-white font-medium rounded-full hover:bg-cyan-500 transition-colors duration-300"
           >
             Discuss Your Project
           </Link>
